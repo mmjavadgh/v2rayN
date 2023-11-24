@@ -17,8 +17,16 @@ foreach ($data['result']['messages'] as $message) {
     }
 }
 
+// Append links to the existing links.txt file
 if (!empty($links)) {
-    file_put_contents('links.txt', implode("\n", $links));
+    // Read existing content of links.txt
+    $existingLinks = file_get_contents('/home/runner/work/v2ray/v2ray/links.txt');
+
+    // Append new links to the existing content
+    $updatedLinks = $existingLinks . "\n" . implode("\n", $links);
+
+    // Write the updated content back to links.txt
+    file_put_contents('/home/runner/work/v2ray/v2ray/links.txt', $updatedLinks);
 }
 
 ?>
