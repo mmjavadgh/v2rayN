@@ -20,13 +20,13 @@ foreach ($data['result']['messages'] as $message) {
 // Append links to the existing links.txt file
 if (!empty($links)) {
     // Read existing content of links.txt
-    $existingLinks = file_get_contents('/home/runner/work/v2ray/v2ray/links.txt');
+    $existingLinks = file_get_contents('https://github.com/mmjavadgh/v2rayN/blob/22059b6dae179aa3c8afda6dc38162e991d161e9/links.txt');
 
     // Append new links to the existing content
     $updatedLinks = $existingLinks . "\n" . implode("\n", $links);
 
     // Write the updated content back to links.txt
-    file_put_contents('/home/runner/work/v2ray/v2ray/links.txt', $updatedLinks);
+    file_put_contents('https://github.com/mmjavadgh/v2rayN/blob/22059b6dae179aa3c8afda6dc38162e991d161e9/links.txt', $updatedLinks);
 }
 
 ?>
