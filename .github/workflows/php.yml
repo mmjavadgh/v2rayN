@@ -1,0 +1,2 @@
+- name: List Files in Directory
+  run: ls -R /home/runner/work/v2ray/v2ray
