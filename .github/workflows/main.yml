@@ -1,0 +1,27 @@
+name: Update V2Ray Links
+
+on:
+  schedule:
+    - cron: '*/1 * * * *' # هر 1 دقیقه
+
+jobs:
+  update-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run PHP Script
+        run: php update_links.php
+        env:
+          TELEGRAM_BOT_TOKEN: '6520725138:AAF9YpmlJ0ypzFyZwaNr0hf_60xh9RW_kFc'
+          TELEGRAM_CHANNEL_ID: '@TVCminer' # یا شناسه کانال مثل '-1001234567890'
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add links.txt
+          git commit -m "Update V2Ray links [skip ci]"
+          git push
