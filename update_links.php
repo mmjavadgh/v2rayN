@@ -4,29 +4,25 @@ $telegramBotToken = '6520725138:AAF9YpmlJ0ypzFyZwaNr0hf_60xh9RW_kFc';
 $channelId = '@TVCminer'; // یا شناسه کانال مثل '-1001234567890'
 
 // Fetch the messages from the Telegram channel
-$apiUrl = "https://api.telegram.org/bot{$telegramBotToken}/getChatHistory?chat_id={$channelId}&limit=10";
-$response = file_get_contents($apiUrl);
+$apiUrl = "https://api.telegram.org/bot{$telegramBotToken}/getChatHistory?chat_id={$channelId}&limit=1"; // تنها آخرین پیام
+$ch = curl_init($apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
 $data = json_decode($response, true);
- 
-// Extract V2Ray links from messages and append to links.txt
-$links = [];
-foreach ($data['result']['messages'] as $message) {
-    if (isset($message['text'])) {
-        preg_match_all('/vmess:\/\/[^\s]+/', $message['text'], $matches);
-        $links = array_merge($links, $matches[0]);
-    }
+
+// Extract all text from the last message and append to links.txt
+$texts = [];
+if (isset($data['result']['messages'][0]['text'])) {
+    // Extract all text from the text
+    $texts[] = $data['result']['messages'][0]['text'];
 }
 
-// Append links to the existing links.txt file
-if (!empty($links)) {
-    // Read existing content of links.txt
-    $existingLinks = file_get_contents('https://github.com/mmjavadgh/v2rayN/blob/22059b6dae179aa3c8afda6dc38162e991d161e9/links.txt');
-
-    // Append new links to the existing content
-    $updatedLinks = $existingLinks . "\n" . implode("\n", $links);
-
-    // Write the updated content back to links.txt
-    file_put_contents('https://github.com/mmjavadgh/v2rayN/blob/22059b6dae179aa3c8afda6dc38162e991d161e9/links.txt', $updatedLinks);
+// Append texts to the existing links.txt file
+if (!empty($texts)) {
+    // Write the texts to links.txt
+    file_put_contents('/home/runner/work/v2ray/v2ray/links.txt', implode("\n", $texts));
 }
 
 ?>
